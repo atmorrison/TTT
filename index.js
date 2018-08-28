@@ -132,7 +132,7 @@ class Game extends React.Component {
                     <button
                         className="move-nav"
                         onClick={() => this.handleNavForward()}
-                        disabled = {this.state.stepNumber - history.length === 1}
+                        disabled = {this.state.history.length - this.state.stepNumber === 1}
                     >
                     Forward
                     </button>
