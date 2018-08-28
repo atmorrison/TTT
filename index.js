@@ -110,6 +110,8 @@ class Game extends React.Component {
         });
     }
 
+    // new branch
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
