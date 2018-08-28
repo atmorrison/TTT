@@ -110,8 +110,7 @@ class Game extends React.Component {
         });
     }
 
-    // new branch
-    // fff
+    // test comment
 
     render() {
         const history = this.state.history;
