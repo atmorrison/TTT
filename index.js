@@ -47,28 +47,6 @@ class Board extends React.Component {
         );
     }
 }
-
-class MoveNav extends React.Component {
-    renderNav(step) {
-        return (
-            <button
-                className="move-nav"
-                onClick={() => this.props.onClick(step)}
-            >
-            {step}
-            </button>
-        )
-    }
-
-    render() {
-        return (
-            <div>
-                {this.renderNav('Back')}
-                {this.renderNav('Forward')}
-            </div>
-        )
-    }
-}
   
 class Game extends React.Component {
     constructor(props) {
@@ -82,13 +60,22 @@ class Game extends React.Component {
         };
     }
 
-    handleNavClick(step) {
-        let stepIndex = step === 'Back' ? -1 : 1;
-        if ((this.state.stepNumber + 1 === this.state.history.length && stepIndex === 1) || (this.state.stepNumber === 0 && stepIndex === -1)) {
+    handleNavBack() {
+        if (this.state.stepNumber === 0) {
             return;
         }
         this.setState({
-            stepNumber: this.state.stepNumber + stepIndex,
+            stepNumber: this.state.stepNumber - 1,
+            xIsNext: !this.state.xIsNext,
+        });
+    }
+
+    handleNavForward() {
+        if (this.state.stepNumber - this.state.history.length === 1) {
+            return;
+        }
+        this.setState({
+            stepNumber: this.state.stepNumber + 1,
             xIsNext: !this.state.xIsNext,
         });
     }
@@ -109,8 +96,6 @@ class Game extends React.Component {
             xIsNext: !this.state.xIsNext,
         });
     }
-
-    // test comment
 
     render() {
         const history = this.state.history;
@@ -136,9 +121,22 @@ class Game extends React.Component {
               </div>
               <div className="game-info">
                 <div>{status}</div>
-                <MoveNav
-                    onClick={(step) => this.handleNavClick(step)}
-                />
+                <div>
+                    <button
+                        className="move-nav"
+                        onClick={() => this.handleNavClick()}
+                        disabled = {this.state.stepNumber === 0}
+                    >
+                    Back
+                    </button>
+                    <button
+                        className="move-nav"
+                        onClick={() => this.handleNavClick()}
+                        disabled = {this.state.stepNumber - history.length === 1}
+                    >
+                    Forward
+                    </button>
+                </div>
               </div>
             </div>
         );
