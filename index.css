@@ -16,6 +16,10 @@ body {
   .status {
     margin-bottom: 10px;
   }
+
+  .square.win  {
+    background: #c55;
+  }
   
   .square {
     background: #fff;
