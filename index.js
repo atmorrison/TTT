@@ -54,6 +54,7 @@ class Board extends React.Component {
 class Game extends React.Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
@@ -62,6 +63,11 @@ class Game extends React.Component {
             stepNumber: 0,
             xIsNext: true,
         };
+
+        fetch('http://13.237.202.210/budgie')
+        .then(res => res.json())
+        .then(res => this.setState(JSON.parse(res)))    
+        .catch(error => console.error('Error:', error));
     }
 
     handleNavBack() {
@@ -102,14 +108,26 @@ class Game extends React.Component {
             }
         }
 
-        this.setState({
+        const currentState = {
             history: history.concat([{
                 squares: squares,
                 winners: winners,
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
-        });
+        };
+
+        fetch('http://13.237.202.210/budgie', {
+            method: 'POST', 
+            body: JSON.stringify(currentState), 
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .then(res => this.setState(res))
+        .catch(error => console.error('Error:', error));
+
+        
     }
 
     render() {
@@ -128,14 +146,14 @@ class Game extends React.Component {
 
         return (
             <div className="game">
-              <div className="game-board">
+            <div className="game-board">
                 <Board 
                     squares={current.squares}
                     winners={current.winners}
                     onClick={(i) => this.handleSquareClick(i)}
                 />
-              </div>
-              <div className="game-info">
+            </div>
+            <div className="game-info">
                 <div>{status}</div>
                 <div>
                     <button
@@ -153,7 +171,7 @@ class Game extends React.Component {
                     Forward
                     </button>
                 </div>
-              </div>
+            </div>
             </div>
         );
     }
