@@ -64,7 +64,7 @@ class Game extends React.Component {
             xIsNext: true,
         };
 
-        fetch('http://13.237.202.210/budgie')
+        fetch('https://cosmokiwi.xyz/budgie')
         .then(res => res.json())
         .then(res => this.setState(JSON.parse(res)))    
         .catch(error => console.error('Error:', error));
@@ -117,7 +117,7 @@ class Game extends React.Component {
             xIsNext: !this.state.xIsNext,
         };
 
-        fetch('http://13.237.202.210/budgie', {
+        fetch('https://cosmokiwi.xyz/budgie', {
             method: 'POST', 
             body: JSON.stringify(currentState), 
             headers: {
