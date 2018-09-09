@@ -70,6 +70,27 @@ class Game extends React.Component {
         .catch(error => console.error('Error:', error));
     }
 
+    newGame() {
+        const currentState = {
+            history: [{
+                squares: Array(9).fill(null),
+                winners: Array(9).fill(false),
+            }],
+            stepNumber: 0,
+            xIsNext: true,
+        };
+
+        fetch('https://cosmokiwi.xyz/budgie', {
+            method: 'POST', 
+            body: JSON.stringify(currentState), 
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .then(res => this.setState(res))
+        .catch(error => console.error('Error:', error));
+    }
+
     handleNavBack() {
         if (this.state.stepNumber === 0) {
             return;
@@ -169,6 +190,14 @@ class Game extends React.Component {
                         disabled = {this.state.history.length - this.state.stepNumber === 1}
                     >
                     Forward
+                    </button>
+                </div>
+                <div>
+                    <button
+                        className="new-game"
+                        onClick={() => this.newGame()}
+                    >
+                    New Game
                     </button>
                 </div>
             </div>
